@@ -84,7 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Scripts\app.js" />
+    <Content Include="Views\create.html" />
     <Content Include="Views\index.html" />
     <Content Include="Web.config" />
   </ItemGroup>

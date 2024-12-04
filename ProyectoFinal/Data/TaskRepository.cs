@@ -8,7 +8,7 @@ namespace ProyectoFinal.Data
 {
     public class TaskRepository
     {
-        private string connectionString = ConfigurationManager.ConnectionStrings["TodoDB"].ConnectionString;
+        private string connectionString = ConfigurationManager.ConnectionStrings["db.name"].ConnectionString;
 
         public List<Task> GetAllTasks()
         {
@@ -24,11 +24,11 @@ namespace ProyectoFinal.Data
                     {
                         tasks.Add(new Task
                         {
-                            ID = (int)reader["ID"],
-                            Title = reader["TITLE"].ToString(),
-                            Description = reader["DESCRIPTION"].ToString(),
-                            IsCompleted = (bool)reader["ISCOMPLETED"],
-                            ExpDate = reader["EXPDATE"] as DateTime?
+                            id = (int)reader["ID"],
+                            title = reader["TITLE"].ToString(),
+                            description = reader["DESCRIPTION"].ToString(),
+                            isCompleted = (bool)reader["ISCOMPLETED"],
+                            expDate = reader["EXPDATE"] as DateTime?
                         });
                     }
                 }
@@ -51,11 +51,11 @@ namespace ProyectoFinal.Data
                     {
                         task = new Task
                         {
-                            ID = (int)reader["ID"],
-                            Title = reader["TITLE"].ToString(),
-                            Description = reader["DESCRIPTION"].ToString(),
-                            IsCompleted = (bool)reader["ISCOMPLETED"],
-                            ExpDate = reader["EXPDATE"] as DateTime?
+                            id = (int)reader["ID"],
+                            title = reader["TITLE"].ToString(),
+                            description = reader["DESCRIPTION"].ToString(),
+                            isCompleted = (bool)reader["ISCOMPLETED"],
+                            expDate = reader["EXPDATE"] as DateTime?
                         };
                     }
                 }
@@ -69,27 +69,10 @@ namespace ProyectoFinal.Data
             {
                 var query = "INSERT INTO TASKS (TITLE, DESCRIPTION, ISCOMPLETED, EXPDATE) VALUES (@Title, @Description, @IsCompleted, @ExpDate)";
                 var command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Title", task.Title);
-                command.Parameters.AddWithValue("@Description", task.Description ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@IsCompleted", task.IsCompleted);
-                command.Parameters.AddWithValue("@ExpDate", task.ExpDate ?? (object)DBNull.Value);
-
-                connection.Open();
-                command.ExecuteNonQuery();
-            }
-        }
-
-        public void UpdateTask(Task task)
-        {
-            using (var connection = new SqlConnection(connectionString))
-            {
-                var query = "UPDATE TASKS SET TITLE = @Title, DESCRIPTION = @Description, ISCOMPLETED = @IsCompleted, EXPDATE = @ExpDate WHERE ID = @ID";
-                var command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ID", task.ID);
-                command.Parameters.AddWithValue("@Title", task.Title);
-                command.Parameters.AddWithValue("@Description", task.Description ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@IsCompleted", task.IsCompleted);
-                command.Parameters.AddWithValue("@ExpDate", task.ExpDate ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@Title", task.title);
+                command.Parameters.AddWithValue("@Description", task.description ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@IsCompleted", task.isCompleted);
+                command.Parameters.AddWithValue("@ExpDate", task.expDate ?? (object)DBNull.Value);
 
                 connection.Open();
                 command.ExecuteNonQuery();
